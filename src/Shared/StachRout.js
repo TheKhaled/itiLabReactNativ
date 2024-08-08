@@ -1,0 +1,59 @@
+import { View, Text } from "react-native";
+import React, { useEffect } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "../Screens/Home";
+import About from "../Screens/About";
+import Loging from "../Screens/Loging";
+import { NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const StachRout = ({ route }) => {
+  const { Navigator, Screen } = createNativeStackNavigator();
+  //   const DATA = [
+  //     { id: 1, title: "Buy BMW", description: "description 1", completed: false },
+  //     {
+  //       id: 2,
+  //       title: "Buyice cream",
+  //       description: "description 2",
+  //       completed: false,
+  //     },
+  //   ];
+  const { data } = route.params;
+  const _storeData = async () => {
+    console.log("Attempting to store data...");
+    try {
+      await AsyncStorage.setItem("@TASKS:key", "I like to save it.");
+      console.log("Data successfully saved!");
+    } catch (error) {
+      console.log("Error saving data:", error);
+    }
+  };
+
+  useEffect(() => {
+    _storeData();
+  }, []);
+  return (
+    <Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: { backgroundColor: "#f4511e" },
+        headerTintColor: "#fff",
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      <Screen
+        name="Home"
+        options={{ title: "khaled" }}
+        component={Home}
+        initialParams={{ data: data }}
+      ></Screen>
+      <Screen name="About" component={About}></Screen>
+      <Screen
+        name="Log in "
+        component={Loging}
+        initialParams={{ data: data }}
+      ></Screen>
+    </Navigator>
+  );
+};
+
+export default StachRout;

@@ -1,16 +1,31 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import About from "./src/Screens/About";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./src/Screens/Home";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Loging from "./src/Screens/Loging";
+import StachRout from "./src/Shared/StachRout";
+
+//const { Navigator, Screen } = createNativeStackNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function App() {
+  // const DATA = [
+  //   { id: 1, title: "Buy BMW", description: "description 1", completed: false },
+  //   {
+  //     id: 2,
+  //     title: "Buyice cream",
+  //     description: "description 2",
+  //     completed: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Go to Mousq",
+  //     description: "description 3",
+  //     completed: true,
+  //   },
+  //   // add more tasks...
+  // ];
   const DATA = [
     { id: 1, title: "Buy BMW", description: "description 1", completed: false },
     {
@@ -19,56 +34,45 @@ export default function App() {
       description: "description 2",
       completed: false,
     },
-    {
-      id: 3,
-      title: "Go to Mousq",
-      description: "description 3",
-      completed: true,
-    },
-    // add more tasks...
   ];
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <Text style={styles.view}> Todo app </Text>
-        <TextInput style={styles.input} placeholder="title"></TextInput>
-        <TextInput style={styles.input} placeholder=" description"></TextInput>
-        <TouchableOpacity style={styles.button}>
-          <Text>add</Text>
-        </TouchableOpacity>
+    <NavigationContainer>
+      <Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTintColor: "#fff",
+          headerTitleStyle: { fontWeight: "bold" },
+          headerBackVisible: false,
+          tabBarStyle: {
+            position: "absolute",
+            width: "90%",
+            bottom: 20,
+            borderWidth: 1,
+            borderColor: "grey",
+            borderTopColor: "grey",
+            borderRadius: 20,
+            left: "5%",
+          },
+        }}
+      >
+        <Screen
+          name="Home"
+          options={({ title: "Main" }, { headerShown: false })}
+          component={StachRout}
+          initialParams={{ data: DATA }}
 
-        {/* <Divider></Divider>    I dont  know why its dont work alothoug  I install  the libray  */}
-        <View style={styles.filtering}>
-          <TouchableOpacity style={styles.button}>
-            <Text>all</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text>active</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              ...styles.button,
-
-              backgroundColor: "orange",
-            }}
-          >
-            <Text>done</Text>
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => {
-            return (
-              <View style={styles.todos}>
-                <Text>{item.title}</Text>
-              </View>
-            );
-          }}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </SafeAreaView>
+          // initialParams={{ data: DATA }}
+        ></Screen>
+        <Screen name="Completed Task" component={About}></Screen>
+        {/* <Screen name="About" component={About}></Screen>
+        <Screen
+          name="Log in "
+          component={Loging}
+          initialParams={{ data: DATA }}
+        ></Screen> */}
+      </Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -80,51 +84,71 @@ export default function App() {
 //     * 3 buttons for filtering the todos list with its status (All, active, done) the “All” Keyword will be selected by default
 //     * List of Filtered Todos.
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+// const styles = StyleSheet.create({
+//   container: {
+//     // marginTop: 27,
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
 
-  view: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  input: {
-    borderWidth: 1,
-    height: 40,
-    borderColor: "gray",
-    margin: 12,
-    padding: 10,
-    borderRadius: 8,
-  },
-  button: {
-    margin: 10,
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    backgroundColor: "yellow",
-    borderRadius: 15,
-  },
-  filtering: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 10,
-  },
+//   view: {
+//     fontSize: 30,
+//     fontWeight: "bold",
+//   },
+//   input: {
+//     borderWidth: 1,
+//     height: 40,
+//     borderColor: "gray",
+//     margin: 12,
+//     padding: 10,
+//     borderRadius: 8,
+//   },
+//   button: {
+//     margin: 10,
+//     alignItems: "center",
+//     backgroundColor: "#DDDDDD",
+//     padding: 10,
+//     backgroundColor: "yellow",
+//     borderRadius: 15,
+//   },
+//   activeFilterBtn: {
+//     width: "30%",
+//     height: 40,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     borderRadius: 15,
+//     borderWidth: 1,
+//     borderColor: "black",
+//     backgroundColor: "black",
+//   },
+//   activeFilterText: {
+//     color: "white",
+//     fontSize: 15,
+//   },
+//   filtering: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     margin: 10,
+//   },
 
-  todos: {
-    margin: 10,
-    backgroundColor: "#CAD1D7",
-    padding: 10,
-    borderRadius: 15,
-    alignItems: "flex-start",
-    justifyContent: "center",
-    width: 200,
-  },
-});
+//   todos: {
+//     margin: 10,
+//     backgroundColor: "#CAD1D7",
+//     padding: 10,
+//     borderRadius: 15,
+//     alignItems: "flex-start",
+//     justifyContent: "center",
+//     width: 200,
+//   },
+//   dividerLine: {
+//     height: 1,
+//     width: "90%",
+//     backgroundColor: "#aeaeae",
+//     marginVertical: 15,
+//   },
+// });
 
 // const theme = createTheme({
 //   lightColors: {
@@ -148,3 +172,14 @@ const styles = StyleSheet.create({
 //     </ThemeProvider>
 //   );
 // };
+
+//https://reactnative.dev/docs/checkbox
+
+//https://reactnativeelements.com/docs/components/card
+
+//ahmedhamza.dev@gmail.com
+//git push -u origin main
+
+//https://icons.expo.fyi/Index/Ionicons/checkmark-done-circle-outline
+// still need  function add and elete
+//aysnic storge
