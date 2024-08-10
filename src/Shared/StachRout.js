@@ -17,7 +17,7 @@ const StachRout = ({ route }) => {
   //       completed: false,
   //     },
   //   ];
-  const { data } = route.params;
+  const { data, DeleteItem, handleRemove } = route.params;
   const _storeData = async () => {
     console.log("Attempting to store data...");
     try {
@@ -33,25 +33,43 @@ const StachRout = ({ route }) => {
   }, []);
   return (
     <Navigator
-      initialRouteName="Home"
+      //  initialRouteName="khaled"
       screenOptions={{
         headerStyle: { backgroundColor: "#f4511e" },
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "bold" },
+        headerBackVisible: false,
+        tabBarStyle: {
+          position: "absolute",
+          width: "90%",
+          bottom: 20,
+          borderWidth: 1,
+          borderColor: "grey",
+          borderTopColor: "grey",
+          borderRadius: 20,
+          left: "5%",
+        },
       }}
     >
       <Screen
-        name="Home"
-        options={{ title: "khaled" }}
+        name="khaled"
+        options={{
+          title: "khaled",
+          headerShown: true,
+        }}
         component={Home}
-        initialParams={{ data: data }}
+        initialParams={{
+          data: data,
+          DeleteItem: DeleteItem,
+          handleRemove: handleRemove,
+        }}
       ></Screen>
-      <Screen name="About" component={About}></Screen>
       <Screen
-        name="Log in "
+        name="Login"
         component={Loging}
         initialParams={{ data: data }}
       ></Screen>
+      <Screen name="About" component={About}></Screen>
     </Navigator>
   );
 };

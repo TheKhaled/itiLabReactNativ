@@ -5,28 +5,14 @@ import Home from "./src/Screens/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Loging from "./src/Screens/Loging";
 import StachRout from "./src/Shared/StachRout";
+import { useState } from "react";
+import BackGround from "./src/Compents/BackGround";
 
 //const { Navigator, Screen } = createNativeStackNavigator();
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function App() {
-  // const DATA = [
-  //   { id: 1, title: "Buy BMW", description: "description 1", completed: false },
-  //   {
-  //     id: 2,
-  //     title: "Buyice cream",
-  //     description: "description 2",
-  //     completed: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Go to Mousq",
-  //     description: "description 3",
-  //     completed: true,
-  //   },
-  //   // add more tasks...
-  // ];
-  const DATA = [
+  const [DATA, setDATA] = useState([
     { id: 1, title: "Buy BMW", description: "description 1", completed: false },
     {
       id: 2,
@@ -34,7 +20,26 @@ export default function App() {
       description: "description 2",
       completed: false,
     },
-  ];
+  ]);
+
+  // function DeleteItem(idRemove) {
+  //   const newDATA = DATA.filter((item) => item.id !== idRemove);
+  //   setDATA(newDATA);
+  // }
+  function DeleteItem(idRemove) {
+    const newDATA = DATA.filter((item) => item.id !== idRemove);
+    console.log("Updated DATA:", newDATA); // Add this line
+    setDATA(newDATA);
+  }
+
+  const handleRemove = (toRemove) => {
+    // let newItems = [...DATA];
+    // newItems = newItems.filter((item) => item.id !== toRemove.id);
+    // setDATA(newItems);
+
+    console.log("nothing");
+  };
+
   return (
     <NavigationContainer>
       <Navigator
@@ -58,14 +63,22 @@ export default function App() {
       >
         <Screen
           name="Home"
-          options={({ title: "Main" }, { headerShown: false })}
+          options={{
+            title: "ToDo APP",
+            headerShown: false,
+          }}
           component={StachRout}
-          initialParams={{ data: DATA }}
-
-          // initialParams={{ data: DATA }}
+          initialParams={{
+            data: DATA,
+            DeleteItem: DeleteItem,
+            handleRemove: handleRemove,
+          }}
         ></Screen>
+
         <Screen name="Completed Task" component={About}></Screen>
-        {/* <Screen name="About" component={About}></Screen>
+        <Screen name="ImageBackGround" component={BackGround}></Screen>
+
+        {/*
         <Screen
           name="Log in "
           component={Loging}
